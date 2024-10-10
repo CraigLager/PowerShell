@@ -168,8 +168,6 @@ function Invoke-CookieCutter{
     } catch {
         Write-Output "Failed to run cookiecutter with template '$repoUrl'."
     }
-	cookiecutter git@bitbucket.org:aferrydev/cdk-starter-template.git
-	
 }
 
 function Write-Command{
@@ -179,8 +177,6 @@ function Write-Command{
 	Write-Host "> " -ForegroundColor Magenta -NoNewline
 	Write-Host "$command" -ForegroundColor Cyan
 }
-
-
 
 Clear-Host
 Get-ChildItem
