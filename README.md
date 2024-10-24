@@ -9,8 +9,8 @@ Best used with [Windows Terminal](https://apps.microsoft.com/detail/9n0dx20hk701
 
 ```
 $Env:NPM_TOKEN = 'npm_xyz'
-$env:COOKIECUTTER_TEMPLATE_DEFAULT = 'git@bitbucket.org:aferrydev/cdk-starter-template.git'
-$env:COOKIECUTTER_TEMPLATE_CDKSTARTER = 'git@bitbucket.org:aferrydev/cdk-starter-template.git'
+$env:COOKIECUTTER_TEMPLATE_DEFAULT = 'git@bitbucket.org:myorg/my-repo.git'
+$env:COOKIECUTTER_TEMPLATE_SOMEPROJECT = 'git@bitbucket.org:myorg/some-project.git'
 ```
 
 # Usage
