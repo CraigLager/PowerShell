@@ -1,3 +1,5 @@
+Best used with [Windows Terminal](https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US)
+
 # Setup
 
 * Clone to your `Documents` folder, creating `Documents/PowerShell`
@@ -49,5 +51,4 @@ Pattern is usually `g{first letter of command}{last letter of command}`
 ## Powershell
 
 * `go <path>`: navigate to path, print directory
-* `goo <partial path>`: navigates to a path based on a wildcard match, example `goo prod` could navigate to `my-production-service`
-* 
+* `goo <partial path>`: navigates to a path based on a wildcard `*<partial path>*` match, example `goo serv` could navigate to `my-service-production`
