@@ -15,6 +15,12 @@ $env:COOKIECUTTER_TEMPLATE_SOMEPROJECT = 'git@bitbucket.org:myorg/some-project.g
 
 # Usage
 
+## General/Powershell
+
+* `go <path>`: navigate to path, print directory
+* `goo <partial path>`: navigates to a path based on a wildcard `*<partial path>*` match, example `goo serv` could navigate to `my-service-production`
+* `Invoke-SubDirectories <command>`: invokes the command in each subdirectory of the current directory
+
 ## Git
 
 ### Shortcuts
@@ -35,7 +41,7 @@ Pattern is usually `g{first letter of command}{last letter of command}`
 * `gbh <branch>`: `git checkout -b <branch>`
 * `gmain`: checks out the latest version of `main` branch
 
-### Workflow Functions
+## Niche Functions
 
 * `git-pushfromnewtemplate <new branch name> <existing repo name>`: for use when working from a cookie cutter template it:
     * renames the template folder
@@ -43,12 +49,4 @@ Pattern is usually `g{first letter of command}{last letter of command}`
     * switches the newly cloned repo to the new branch
     * copies items from the template into the repo
     * pushes the repo
-* `Invoke-SubDirectories <command>`: invokes the command in each subdirectory of the current directory
 * `Invoke-CookieCutter <template name>`: invokes cookie cutter against a url in environment variable named `COOKIECUTTER_TEMPLATE_<template name>`. Defaults to `DEFAULT`
-
-
-
-## Powershell
-
-* `go <path>`: navigate to path, print directory
-* `goo <partial path>`: navigates to a path based on a wildcard `*<partial path>*` match, example `goo serv` could navigate to `my-service-production`
