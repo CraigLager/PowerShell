@@ -3,7 +3,7 @@ Best used with [Windows Terminal](https://apps.microsoft.com/detail/9n0dx20hk701
 # Setup
 
 * Clone to your `Documents` folder, creating `Documents/PowerShell`
-* Create a `env.ps1` file to set environment varialbes
+* Create `env.ps1` file to set environment varialbes
 
 ### env.ps1 example
 
