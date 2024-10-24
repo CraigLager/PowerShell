@@ -59,6 +59,13 @@ function git-status{
 		git status
 }
 
+New-Alias grepo git-clone-repo
+function git-clone-repo{
+	param ([string] $name)
+	$prefix = (Get-Item -Path "Env:GIT_REPO_PREFIX").Value
+	git clone "$prefix$name.git"
+}
+
 New-Alias gacp git-acp
 function git-acp {
     param ([string] $m)
