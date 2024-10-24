@@ -1,21 +1,15 @@
-Best used with [Windows Terminal](https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US)
-
-# Setup
-
-* Clone to your `Documents` folder, creating `Documents/PowerShell`
-* Create `env.ps1` file to set environment varialbes
-
-### env.ps1 example
-
-```
-$Env:NPM_TOKEN = 'npm_xyz'
-$env:COOKIECUTTER_TEMPLATE_DEFAULT = 'git@bitbucket.org:myorg/my-repo.git'
-$env:COOKIECUTTER_TEMPLATE_SOMEPROJECT = 'git@bitbucket.org:myorg/some-project.git'
-```
+Best used with [Windows Terminal](https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US), provides shortcuts and helper functions for engineers/developers
 
 # Usage
 
 ## General/Powershell
+
+* `c`: alias `code`
+* `e`: alias `explorer`
+* `g`: alias `git`
+* `n`: alias `npm`
+* `p`: alias pnpm
+* `note`: alias `"C:\Program Files (x86)\Notepad++\Notepad++.exe"`
 
 * `go <path>`: navigate to path, print directory
 * `goo <partial path>`: navigates to a path based on a wildcard `*<partial path>*` match, example `goo serv` could navigate to `my-service-production`
@@ -50,3 +44,16 @@ Pattern is usually `g{first letter of command}{last letter of command}`
     * copies items from the template into the repo
     * pushes the repo
 * `Invoke-CookieCutter <template name>`: invokes cookie cutter against a url in environment variable named `COOKIECUTTER_TEMPLATE_<template name>`. Defaults to `DEFAULT`
+
+# Setup
+
+* Clone to your `Documents` folder, creating `Documents/PowerShell`
+* Create `env.ps1` file to set environment varialbes
+
+### env.ps1 example
+
+```
+$Env:NPM_TOKEN = 'npm_xyz'
+$env:COOKIECUTTER_TEMPLATE_DEFAULT = 'git@bitbucket.org:myorg/my-repo.git'
+$env:COOKIECUTTER_TEMPLATE_SOMEPROJECT = 'git@bitbucket.org:myorg/some-project.git'
+```
