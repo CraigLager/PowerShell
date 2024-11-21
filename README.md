@@ -49,7 +49,7 @@ Pattern is usually `g{first letter of command}{last letter of command}`
 # Setup
 
 * Clone to your `Documents` folder, creating `Documents/PowerShell`
-* Create `env.ps1` file to set environment varialbes
+* Create `env.ps1` file to set environment variables
 
 ### env.ps1 example
 
@@ -57,4 +57,5 @@ Pattern is usually `g{first letter of command}{last letter of command}`
 $Env:NPM_TOKEN = 'npm_xyz'
 $env:COOKIECUTTER_TEMPLATE_DEFAULT = 'git@bitbucket.org:myorg/my-repo.git'
 $env:COOKIECUTTER_TEMPLATE_SOMEPROJECT = 'git@bitbucket.org:myorg/some-project.git'
+$env:GIT_REPO_PREFIX='git@bitbucket.org:myorg/'
 ```
