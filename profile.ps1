@@ -77,6 +77,8 @@ function git-acp {
 New-Alias gbh git-branch
 function git-branch {
 	param ([string] $m)
+	git checkout main
+	git pull
 	git checkout -b $m
 }
 
@@ -99,7 +101,7 @@ function wild-cdls{
 	cdls *$path*
 }
 
-function git-pushfromnewtemplate{
+function Invoke-Git-PushNewTemplate{
 	param ([string] $issueId, [string] $repoName)
 	$currentFolder = Get-Item -Path .
 

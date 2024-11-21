@@ -29,15 +29,16 @@ Pattern is usually `g{first letter of command}{last letter of command}`
 
 ### Helpers
 
-* `gct "message"`: `git commit -a -m "message"`
+* `gct "<message>"`: `git commit -a -m "<message>"`
 * `gsc`: pulls and then pushes
-* `gacp "message"`: adds all files, commits with message, push
+* `gacp "<message>"`: adds all files, commits with message, push
 * `gbh <branch>`: `git checkout -b <branch>`
 * `gmain`: checks out the latest version of `main` branch
+* `grepo <repo name>`: `git clone {env.GIT_REPO_PREFIX}<repo name>
 
 ## Niche Functions
 
-* `git-pushfromnewtemplate <new branch name> <existing repo name>`: for use when working from a cookie cutter template it:
+* `Invoke-Git-PushNewTemplate <new branch name> <existing repo name>`: for use when working from a cookie cutter template it:
     * renames the template folder
     * clones the repo which we want to push to
     * switches the newly cloned repo to the new branch
