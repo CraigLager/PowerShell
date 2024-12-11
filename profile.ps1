@@ -82,6 +82,38 @@ function git-branch {
 	git checkout -b $m
 }
 
+New-Alias gib New-GitIssueBranch
+function New-GitIssueBranch {
+    param (
+        [string]$IssueNumber
+    )
+
+    # Get the branch prefix
+    $branchPrefix = Get-IssueBranchName
+
+    if (-not $branchPrefix) {
+        Write-Error "Failed to generate branch prefix. Exiting."
+        return
+    }
+
+    # Construct the full branch name
+    $branchName = "$branchPrefix" -replace "{ISSUE_NUMBER}", $IssueNumber
+
+    # Checkout main, pull updates, and create a new branch
+    gbh $branchName
+}
+
+New-Alias gpr New-PullRequest
+function New-PullRequest {
+	$currentBranch = git rev-parse --abbrev-ref HEAD
+	$currentRepoUrl = git config --get remote.origin.url
+	$currentRepo = (($currentRepoUrl -split ":")[1]) -replace ".git", ""
+	$pullRequestTemplate = (Get-Item -Path "Env:GIT_PR_TEMPLATE").Value
+	$url = $pullRequestTemplate -replace "\{REPO\}", $currentRepo -replace "\{BRANCH\}", $currentBranch
+	
+	Start-Process $url
+}
+
 New-Alias gmain git-main
 function git-main {
 	git checkout main
@@ -99,40 +131,6 @@ New-Alias goo wild-cdls
 function wild-cdls{
 	param ([string] $path)
 	cdls *$path*
-}
-
-function Invoke-Git-PushNewTemplate{
-	param ([string] $issueId, [string] $repoName)
-	$currentFolder = Get-Item -Path .
-
-	# rename `my-stack` -> `my-stack-template`
-	Rename-Item -Path "$currentFolder\$repoName" -NewName "$repoName-template"
-	
-	if (Test-Path $repoName-template\node_modules) {
-		# remove node_modules rather than copy it
-		Remove-Item -Recurse -Force $repoName-template\node_modules
-	}
-
-	# clone the repo we will push to
-	git clone git@bitbucket.org:aferrydev/$repoName.git
-	
-	cd $repoName
-	
-	# switch to new branch
-	git checkout -b $issueId
-	
-	# copy template contents
-	Copy-Item -Path "..\$repoName-template\*" -Destination "" -Recurse
-	
-	# restore pnpm
-	pnpm i
-	
-	# push
-	git add .
-	git commit -m "Initial commit from project template"
-	git push
-	cd ..
-	Start-Process "https://bitbucket.org/aferrydev/$repoName/pull-requests/new?source=$issueId&t=1"
 }
 
 function Invoke-SubDirectories {
@@ -163,21 +161,29 @@ function Invoke-SubDirectories {
     }
 }
 
-function Invoke-CookieCutter{
-	    param (
-        [string]$EnvVarName = "DEFAULT"
-    )
-	$fullEnvName = "COOKIECUTTER_TEMPLATE_$EnvVarName".ToUpper();
-	$repoUrl = (Get-Item -Path "Env:$fullEnvName").Value
-	Write-Host $fullEnvName;
-	Write-Host $repoUrl;
-	Write-Command "cookiecutter $repoUrl"
-	try {
-        cookiecutter $repoUrl
-    } catch {
-        Write-Output "Failed to run cookiecutter with template '$repoUrl'."
+
+function Get-IssueBranchName {
+    # Get the current year and quarter
+    $currentYear = (Get-Date).Year
+    $shortYear = $currentYear.ToString().Substring(2) # Get the last two digits of the year
+    $currentMonth = (Get-Date).Month
+    $currentQuarter = [math]::Ceiling($currentMonth / 3)
+
+    # Get the ISSUE_BRANCH_PREFIX environment variable
+    $prefix = $env:GIT_ISSUE_BRANCH_TEMPLATE
+
+    # Check if the variable is set
+    if (-not $prefix) {
+        Write-Error "The environment variable 'GIT_ISSUE_BRANCH_TEMPLATE' is not set."
+        return
     }
+
+    # Replace placeholders with current year (short) and quarter
+    $resolvedPrefix = $prefix -replace '{QTR}', $currentQuarter -replace '{YEAR}', $shortYear
+
+    return $resolvedPrefix
 }
+
 
 function Write-Command{
 	param([string] $command)
@@ -185,6 +191,10 @@ function Write-Command{
 	Write-Host (Get-Location) -ForegroundColor Magenta -NoNewline
 	Write-Host "> " -ForegroundColor Magenta -NoNewline
 	Write-Host "$command" -ForegroundColor Cyan
+}
+
+function Invoke-Refresh{
+	Get-Process -Id $PID | Select-Object -ExpandProperty Path | ForEach-Object { Invoke-Command { & "$_" } -NoNewScope }
 }
 
 Clear-Host

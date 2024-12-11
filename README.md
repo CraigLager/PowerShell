@@ -14,6 +14,7 @@ Best used with [Windows Terminal](https://apps.microsoft.com/detail/9n0dx20hk701
 * `go <path>`: navigate to path, print directory
 * `goo <partial path>`: navigates to a path based on a wildcard `*<partial path>*` match, example `goo serv` could navigate to `my-service-production`
 * `Invoke-SubDirectories <command>`: invokes the command in each subdirectory of the current directory
+* `Invoke-Refresh`: refresh the current terminal, reloading the profile
 
 ## Git
 
@@ -35,16 +36,8 @@ Pattern is usually `g{first letter of command}{last letter of command}`
 * `gbh <branch>`: `git checkout -b <branch>`
 * `gmain`: checks out the latest version of `main` branch
 * `grepo <repo name>`: `git clone {env.GIT_REPO_PREFIX}<repo name>
-
-## Niche Functions
-
-* `Invoke-Git-PushNewTemplate <new branch name> <existing repo name>`: for use when working from a cookie cutter template it:
-    * renames the template folder
-    * clones the repo which we want to push to
-    * switches the newly cloned repo to the new branch
-    * copies items from the template into the repo
-    * pushes the repo
-* `Invoke-CookieCutter <template name>`: invokes cookie cutter against a url in environment variable named `COOKIECUTTER_TEMPLATE_<template name>`. Defaults to `DEFAULT`
+* `gpr`: opens a pull request against the current branch, using $env:GIT_PR_TEMPLATE
+* `gib <id>`: creates an issue branch
 
 # Setup
 
@@ -55,7 +48,7 @@ Pattern is usually `g{first letter of command}{last letter of command}`
 
 ```
 $Env:NPM_TOKEN = 'npm_xyz'
-$env:COOKIECUTTER_TEMPLATE_DEFAULT = 'git@bitbucket.org:myorg/my-repo.git'
-$env:COOKIECUTTER_TEMPLATE_SOMEPROJECT = 'git@bitbucket.org:myorg/some-project.git'
 $env:GIT_REPO_PREFIX='git@bitbucket.org:myorg/'
+$env:GIT_PR_TEMPLATE='https://bitbucket.org/{REPO}/pull-requests/new?source={BRANCH}&t=1'
+$env:ISSUE_BRANCH_PREFIX='BLD{QTR}Q{YEAR}-{ISSUE_NUM}'
 ```
