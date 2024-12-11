@@ -72,4 +72,4 @@ $env:ISSUE_BRANCH_PREFIX='BLD{QTR}Q{YEAR}-{ISSUE_NUM}'
 * Commit and push the changes
 	* `Invoke-SubDirectories gacp "fix: the thing"`
 * Create a pull request for each change
-	* `Invoke-SubDirectories gpr
+	* `Invoke-SubDirectories gpr`
