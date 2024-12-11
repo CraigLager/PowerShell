@@ -52,3 +52,24 @@ $env:GIT_REPO_PREFIX='git@bitbucket.org:myorg/'
 $env:GIT_PR_TEMPLATE='https://bitbucket.org/{REPO}/pull-requests/new?source={BRANCH}&t=1'
 $env:ISSUE_BRANCH_PREFIX='BLD{QTR}Q{YEAR}-{ISSUE_NUM}'
 ```
+
+# Example Usage
+
+## Scenario: I want to make a similar change in many repos
+
+* Create a temporary working folder:
+	* `New-Item temp`
+* Navigate to the new folder:
+	* `go temp`
+* Clone the repos:
+	* `grepo myrepo1`
+	* `grepo myrepo2`
+* Create a branch in each repo for my issue
+	* `Invoke-SubDirectories gib 123`
+* Open each repo for editing
+	* `Invoke-SubDirectories c .`
+* Make changes
+* Commit and push the changes
+	* `Invoke-SubDirectories gacp "fix: the thing"`
+* Create a pull request for each change
+	* `Invoke-SubDirectories gpr
