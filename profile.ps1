@@ -13,48 +13,49 @@ if (Test-Path $envScriptPath) {
 Import-Module posh-git
 Write-Host "posh-git Loaded"
 
-New-Alias c code
+New-Alias c "C:\Program Files\JetBrains\WebStorm 2025.1.2\bin\webstorm64.exe"
 New-Alias e explorer
 New-Alias g git
 New-Alias n npm
-New-Alias note "C:\Program Files (x86)\Notepad++\Notepad++.exe"
+New-Alias npp "C:\Program Files (x86)\Notepad++\Notepad++.exe"
 New-Alias p pnpm
 
 
-New-Alias gct git-commit
+New-Alias gcommit git-commit
 function git-commit {
 	param ([string] $m)
 	git commit -a -m $m
 }
 
-New-Alias gph git-push
+New-Alias gpush git-push
 function git-push{
 	git push
 }
 
-New-Alias gpl git-pull
+New-Alias gpull git-pull
 function git-pull{
 	git pull
 }
 
-New-Alias gfh git-fetch
+New-Alias gfetch git-fetch
 function git-fetch{
 	git fetch
 }
 
 New-Alias gco git-checkout
+New-Alias gcheckout git-checkout
 function git-checkout {
 	param ([string] $m)
 	git checkout $m
 }
 
-New-Alias gsc git-sync
+New-Alias gsync git-sync
 function git-sync{
 	git pull
 	git push
 }
 
-New-Alias gss git-status
+New-Alias gstatus git-status
 function git-status{
 		git status
 }
@@ -64,6 +65,9 @@ function git-clone-repo{
 	param ([string] $name)
 	$prefix = (Get-Item -Path "Env:GIT_REPO_PREFIX").Value
 	git clone "$prefix$name.git"
+	go "$name"
+	pnpm i
+	c .
 }
 
 New-Alias gacp git-acp
@@ -74,7 +78,7 @@ function git-acp {
     git push
 }
 
-New-Alias gbh git-branch
+New-Alias gbranch git-branch
 function git-branch {
 	param ([string] $m)
 	git checkout main
@@ -100,7 +104,9 @@ function New-GitIssueBranch {
     $branchName = "$branchPrefix" -replace "{ISSUE_NUMBER}", $IssueNumber
 
     # Checkout main, pull updates, and create a new branch
-    gbh $branchName
+	git checkout main
+	git pull
+	git checkout -b $branchName
 }
 
 New-Alias gpr New-PullRequest
@@ -120,18 +126,51 @@ function git-main {
 	git pull
 }
 
-New-Alias go cdls
+
 function cdls{
 	param ([string] $path)
 	Set-Location $path
 	Get-ChildItem
 }
 
-New-Alias goo wild-cdls
-function wild-cdls{
-	param ([string] $path)
-	cdls *$path*
+New-Alias go Invoke-GoTo
+function Invoke-GoTo {
+    param (
+        [string] $Path
+    )
+
+    if (-not $Path) {
+        # No argument: just list top-level directories
+        Get-ChildItem -Directory
+        return
+    }
+
+    # Match only immediate subdirectories
+    $matches = Get-ChildItem -Directory | Where-Object {
+        $_.Name -like "$Path"
+    }
+
+    if ($matches.Count -eq 1) {
+        Set-Location $matches[0].FullName
+        Get-ChildItem
+    }
+    elseif ($matches.Count -gt 1) {
+        Write-Host "Multiple matches found:" -ForegroundColor Yellow
+        $matches | ForEach-Object {
+            Write-Host $_.Name -ForegroundColor Cyan
+        }
+    }
+    else {
+        # Fall back to literal path
+        try {
+            Set-Location $Path
+            Get-ChildItem
+        } catch {
+            Write-Host "Path not found: $Path" -ForegroundColor Red
+        }
+    }
 }
+
 
 function Invoke-SubDirectories {
     param (
