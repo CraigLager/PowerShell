@@ -1,6 +1,7 @@
 $scriptPath = $MyInvocation.MyCommand.Path
 $directoryPath = Split-Path -Parent $scriptPath
 $envScriptPath = "$directoryPath\env.ps1"
+$helperPaths = @("$directoryPath\helpers\aws\aliases.ps1")
 
 if (Test-Path $envScriptPath) {
     Write-Host "Loading Profile $scriptPath"
@@ -10,8 +11,14 @@ if (Test-Path $envScriptPath) {
     Write-Host "env.ps1 not found"
 }
 
+foreach ($p in $helperPaths) {
+	. $p
+	Write-Host "$p Loaded"
+}
+
 Import-Module posh-git
 Write-Host "posh-git Loaded"
+
 
 New-Alias c "C:\Program Files\JetBrains\WebStorm 2025.1.2\bin\webstorm64.exe"
 New-Alias e explorer
@@ -19,7 +26,12 @@ New-Alias g git
 New-Alias n npm
 New-Alias npp "C:\Program Files (x86)\Notepad++\Notepad++.exe"
 New-Alias p pnpm
+New-Alias ai claude
 
+New-Alias nt new-tab
+function new-tab {
+	wt -w 0 nt -d .
+}
 
 New-Alias gcommit git-commit
 function git-commit {
